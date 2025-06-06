@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Quiz: Lento all'Ira</title>
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="container">
+    <!-- INTRODUCTION SECTION -->
+    <section id="intro" class="card">
+      <h1>Quiz: Lento all'Ira</h1>
+      <p>
+        Verifica la tua comprensione del carattere di Dio attraverso
+        questo quiz basato sullo studio biblico.
+      </p>
+      <ul>
+        <li>Il significato dell'espressione “Erek Apaim”</li>
+        <li>L'ira di Dio come metafora biblica</li>
+        <li>Esempi della pazienza di Dio nell'Antico Testamento</li>
+        <li>L'analisi di Paolo nella lettera ai Romani</li>
+        <li>La relazione tra l'ira e l'amore di Dio in Gesù</li>
+      </ul>
+      <div class="meta-info">
+        <span>Tempo stimato: 5-7 minuti</span>
+        <span>Numero domande: 10</span>
+        <span>Difficoltà: Medio</span>
+      </div>
+      <button id="start-btn" class="btn">Inizia il Quiz</button>
+    </section>
+
+    <!-- QUIZ SECTION (hidden until “Inizia il Quiz” is clicked) -->
+    <section id="quiz-container" class="card hidden">
+      <div id="question-wrapper">
+        <!-- Question text will be injected here -->
+      </div>
+
+      <form id="options-form">
+        <!-- Multiple-choice options will be injected here -->
+      </form>
+
+      <div class="navigation">
+        <button id="prev-btn" class="btn small" disabled>
+          Precedente
+        </button>
+        <button id="next-btn" class="btn small">Prossima</button>
+      </div>
+    </section>
+
+    <!-- RESULTS SECTION (hidden until quiz is finished) -->
+    <section id="results-container" class="card hidden">
+      <h2>Il Tuo Risultato</h2>
+      <p id="score">0/10</p>
+      <button id="retry-btn" class="btn">Rifai il Quiz</button>
+      <h3>Riepilogo Risposte</h3>
+      <div id="review-wrapper">
+        <!-- Per-question review will be injected here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Link to external JS -->
+  <script src="js/script.js"></script>
+</body>
+</html>
