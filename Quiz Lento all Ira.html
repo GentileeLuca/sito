@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Lento all'Ira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #3a6186, #89253e);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .intro-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #3498db;
+        }
+        
+        .intro-section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .intro-section p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            min-width: 150px;
+            margin: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-box i {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-container {
+            display: none;
+        }
+        
+        .question-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eaeaea;
+        }
+        
+        .question-number {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #3498db;
+        }
+        
+        .option.selected {
+            background: #d1e7ff;
+            border-color: #3498db;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .option-label {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        
+        .results-container {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+        }
+        
+        .results-container h2 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .score-container {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin: 30px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-text {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .feedback {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feedback h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .feedback-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .feedback-item:last-child {
+            border-bottom: none;
+        }
+        
+        .progress-container {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0 30px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #3498db;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-bible"></i> Quiz: Lento all'Ira</h1>
+            <p>Verifica la tua comprensione del carattere di Dio attraverso questo quiz basato sullo studio biblico</p>
+        </header>
+        
+        <div class="content">
+            <div class="intro-section" id="intro">
+                <h2><i class="fas fa-info-circle"></i> Introduzione al Quiz</h2>
+                <p>Benvenuto al quiz su "Lento all'Ira"! Questo test è progettato per aiutarti a verificare la tua comprensione del carattere di Dio come descritto nel documento di studio biblico.</p>
+                <p>Il quiz consiste in 10 domande a scelta multipla basate sui seguenti temi:</p>
+                
+                <ul style="margin-left: 25px; margin-top: 10px; margin-bottom: 20px; line-height: 1.8;">
+                    <li>Il significato dell'espressione "Erek Apaim"</li>
+                    <li>L'ira di Dio come metafora biblica</li>
+                    <li>Esempi della pazienza di Dio nell'Antico Testamento</li>
+                    <li>L'analisi di Paolo nella lettera ai Romani</li>
+                    <li>La relazione tra l'ira e l'amore di Dio in Gesù</li>
+                </ul>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <i class="far fa-clock"></i>
+                        <h3>Tempo stimato</h3>
+                        <p>5-7 minuti</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="far fa-question-circle"></i>
+                        <h3>Numero domande</h3>
+                        <p>10</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Difficoltà</h3>
+                        <p>Medio</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="start-btn" style="margin-top: 20px;">
+                    <i class="fas fa-play"></i> Inizia il Quiz
+                </button>
+            </div>
+            
+            <div class="quiz-container" id="quiz">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-number">1</div>
+                    <div class="question-text" id="question-text"></div>
+                    <div class="options-container" id="options-container"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i> Precedente
+                    </button>
+                    <button class="btn btn-primary" id="next-btn">
+                        Prossima <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-success" id="submit-btn" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Mostra Risultati
+                    </button>
+                </div>
+            </div>
+            
+            <div class="results-container" id="results">
+                <h2><i class="fas fa-trophy"></i> Il Tuo Risultato</h2>
+                <div class="score-container" id="score">0/10</div>
+                <div class="score-text" id="score-text"></div>
+                
+                <button class="btn btn-primary" id="restart-btn">
+                    <i class="fas fa-redo"></i> Rifai il Quiz
+                </button>
+                
+                <div class="feedback" id="feedback">
+                    <h3><i class="fas fa-lightbulb"></i> Riepilogo Risposte</h3>
+                    <div id="feedback-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Domande del quiz
+        const questions = [
+            {
+                question: "Qual è il significato letterale dell'espressione ebraica 'Erek Apaim'?",
+                options: [
+                    "Lento a perdonare",
+                    "Lungo di naso",
+                    "Ricco in benignità",
+                    "Grande nella misericordia"
+                ],
+                answer: 1,
+                explanation: "L'espressione ebraica 'Erek Apaim' significa letteralmente 'lungo di naso'. Nella cultura ebraica, questo si riferisce al fatto che ci vuole molto tempo affinché il naso (simbolo dell'ira) si scaldi, indicando che Dio è lento all'ira."
+            },
+            {
+                question: "Nella storia di Giuseppe, cosa significa l'espressione 'il suo naso ardeva'?",
+                options: [
+                    "Che Giuseppe aveva la febbre",
+                    "Che Potifar era molto arrabbiato",
+                    "Che Giuseppe era in imbarazzo",
+                    "Che la moglie di Potifar era gelosa"
+                ],
+                answer: 1,
+                explanation: "Nella storia di Giuseppe, l'espressione 'il suo naso ardeva' (Genesi 39:19) viene tradotta come 'la sua ira ardeva', indicando che Potifar era molto arrabbiato con Giuseppe."
+            },
+            {
+                question: "Secondo il documento, come viene espressa principalmente l'ira di Dio nella Bibbia?",
+                options: [
+                    "Con punizioni immediate e dirette",
+                    "Abbandonando le persone alle conseguenze delle loro scelte",
+                    "Attraverso calamità naturali",
+                    "Con l'invio di profeti per ammonire"
+                ],
+                answer: 1,
+                explanation: "Nella Bibbia, l'ira di Dio viene espressa principalmente abbandonando le persone alle conseguenze delle loro scelte, come nel caso del Faraone e degli Israeliti."
+            },
+            {
+                question: "Quante possibilità Dio diede al Faraone per liberare Israele?",
+                options: [
+                    "Tre possibilità",
+                    "Sette possibilità",
+                    "Dieci possibilità",
+                    "Dodici possibilità"
+                ],
+                answer: 2,
+                explanation: "Dio diede al Faraone dieci possibilità (le dieci piaghe) per liberare Israele prima di intervenire con giudizio."
+            },
+            {
+                question: "Secondo Romani 1, quante volte Paolo afferma che Dio abbandona le persone alle loro scelte?",
+                options: [
+                    "Una volta",
+                    "Due volte",
+                    "Tre volte",
+                    "Cinque volte"
+                ],
+                answer: 2,
+                explanation: "Nella lettera ai Romani (capitolo 1), Paolo descrive tre volte come Dio abbandoni le persone alle conseguenze delle loro scelte peccaminose."
+            },
+            {
+                question: "Secondo Romani 2:4, qual è lo scopo della pazienza di Dio?",
+                options: [
+                    "Dimostrare la sua superiorità",
+                    "Dare più tempo per peccare",
+                    "Spingere al ravvedimento",
+                    "Preparare per il giudizio"
+                ],
+                answer: 2,
+                explanation: "Romani 2:4 afferma che la bontà, pazienza e costanza di Dio hanno lo scopo di spingere le persone al ravvedimento."
+            },
+            {
+                question: "In che modo Gesù dimostra sia l'amore che l'ira di Dio?",
+                options: [
+                    "Condannando i peccatori",
+                    "Caricando su di sé le conseguenze del peccato",
+                    "Sconfiggendo i Romani",
+                    "Insegnando una nuova legge"
+                ],
+                answer: 1,
+                explanation: "Gesù dimostra l'amore e l'ira di Dio caricando su di sé le conseguenze del peccato umano, morendo al posto dei peccatori."
+            },
+            {
+                question: "Quale libro della Bibbia contiene la descrizione di Dio come 'lento all'ira'?",
+                options: [
+                    "Genesi",
+                    "Salmi",
+                    "Esodo",
+                    "Isaia"
+                ],
+                answer: 2,
+                explanation: "La descrizione di Dio come 'misericordioso e pietoso, lento all'ira, ricco in benignità e fedeltà' si trova in Esodo 34:6."
+            },
+            {
+                question: "Cosa significa secondo il documento che Dio è 'lento all'ira'?",
+                options: [
+                    "Dio non si arrabbia mai",
+                    "Dio concede molto tempo per cambiare",
+                    "Dio è indifferente al male",
+                    "Dio dimentica facilmente i peccati"
+                ],
+                answer: 1,
+                explanation: "Dio è 'lento all'ira' significa che Egli concede alle persone molto tempo per cambiare e ravvedersi prima di intervenire con giudizio."
+            },
+            {
+                question: "Quale aspetto del carattere di Dio è più fondamentale della sua ira?",
+                options: [
+                    "La sua onnipotenza",
+                    "La sua giustizia",
+                    "La sua compassione e l'amore fedele",
+                    "La sua santità"
+                ],
+                answer: 2,
+                explanation: "La compassione e l'amore fedele di Dio sono aspetti più fondamentali del suo carattere rispetto alla sua ira, che è una risposta alla malvagità umana."
+            }
+        ];
+
+        // Elementi DOM
+        const introSection = document.getElementById('intro');
+        const quizContainer = document.getElementById('quiz');
+        const resultsContainer = document.getElementById('results');
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreElement = document.getElementById('score');
+        const scoreTextElement = document.getElementById('score-text');
+        const feedbackContent = document.getElementById('feedback-content');
+        const progressBar = document.getElementById('progress-bar');
+
+        // Variabili di stato
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let score = 0;
+
+        // Funzioni
+        function startQuiz() {
+            introSection.style.display = 'none';
+            quizContainer.style.display = 'block';
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        function showQuestion(index) {
+            const question = questions[index];
+            questionText.textContent = question.question;
+            
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                if (userAnswers[index] === i) {
+                    optionElement.classList.add('selected');
+                }
+                
+                const optionLabel = document.createElement('div');
+                optionLabel.classList.add('option-label');
+                optionLabel.textContent = String.fromCharCode(65 + i); // A, B, C, D
+                
+                const optionText = document.createElement('div');
+                optionText.textContent = option;
+                
+                optionElement.appendChild(optionLabel);
+                optionElement.appendChild(optionText);
+                
+                optionElement.addEventListener('click', () => selectOption(i));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.style.display = index < questions.length - 1 ? 'block' : 'none';
+            submitBtn.style.display = index === questions.length - 1 ? 'block' : 'none';
+            
+            document.querySelector('.question-number').textContent = index + 1;
+        }
+
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Rimuovi la selezione precedente
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            
+            // Aggiungi la selezione corrente
+            options[optionIndex].classList.add('selected');
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgressBar();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgressBar();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function submitQuiz() {
+            // Calcola il punteggio
+            score = 0;
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.answer) {
+                    score++;
+                }
+            });
+            
+            // Mostra i risultati
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+            
+            scoreElement.textContent = `${score}/${questions.length}`;
+            
+            // Testo personalizzato in base al punteggio
+            let text;
+            if (score >= 9) {
+                text = "Eccellente! Hai una profonda comprensione del carattere di Dio e della sua pazienza.";
+            } else if (score >= 7) {
+                text = "Ottimo lavoro! Hai una buona conoscenza del tema 'Lento all'Ira'.";
+            } else if (score >= 5) {
+                text = "Buono! Hai compreso i concetti principali ma potresti approfondire alcuni aspetti.";
+            } else {
+                text = "Continua a studiare! Rileggi il documento per comprendere meglio il carattere di Dio.";
+            }
+            scoreTextElement.textContent = text;
+            
+            // Mostra il feedback
+            feedbackContent.innerHTML = '';
+            questions.forEach((question, index) => {
+                const feedbackItem = document.createElement('div');
+                feedbackItem.classList.add('feedback-item');
+                
+                const questionElem = document.createElement('p');
+                questionElem.innerHTML = `<strong>Domanda ${index + 1}:</strong> ${question.question}`;
+                feedbackItem.appendChild(questionElem);
+                
+                const userAnswer = document.createElement('p');
+                const isCorrect = userAnswers[index] === question.answer;
+                userAnswer.innerHTML = `<strong>La tua risposta:</strong> <span style="color: ${isCorrect ? 'green' : 'red'}">${question.options[userAnswers[index]]}</span>`;
+                feedbackItem.appendChild(userAnswer);
+                
+                if (!isCorrect) {
+                    const correctAnswer = document.createElement('p');
+                    correctAnswer.innerHTML = `<strong>Risposta corretta:</strong> <span style="color: green">${question.options[question.answer]}</span>`;
+                    feedbackItem.appendChild(correctAnswer);
+                }
+                
+                const explanation = document.createElement('p');
+                explanation.innerHTML = `<strong>Spiegazione:</strong> ${question.explanation}`;
+                feedbackItem.appendChild(explanation);
+                
+                feedbackContent.appendChild(feedbackItem);
+            });
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            score = 0;
+            
+            resultsContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', nextQuestion);
+        prevBtn.addEventListener('click', prevQuestion);
+        submitBtn.addEventListener('click', submitQuiz);
+        restartBtn.addEventListener('click', restartQuiz);
+    </script>
+</body>
+</html>
