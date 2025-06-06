@@ -2,69 +2,120 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz: Lento all'Ira</title>
-  <!-- Link to external CSS -->
+  <!-- Font Awesome per le icone -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <!-- CSS esterno -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <main class="container">
-    <!-- INTRODUCTION SECTION -->
-    <section id="intro" class="card">
-      <h1>Quiz: Lento all'Ira</h1>
+  <div class="container">
+    <!-- =========== HEADER =========== -->
+    <header>
+      <h1>
+        <i class="fas fa-book-bible"></i> Quiz: Lento all'Ira
+      </h1>
       <p>
-        Verifica la tua comprensione del carattere di Dio attraverso
-        questo quiz basato sullo studio biblico.
+        Verifica la tua comprensione del carattere di Dio attraverso questo
+        quiz basato sullo studio biblico
       </p>
-      <ul>
-        <li>Il significato dell'espressione “Erek Apaim”</li>
-        <li>L'ira di Dio come metafora biblica</li>
-        <li>Esempi della pazienza di Dio nell'Antico Testamento</li>
-        <li>L'analisi di Paolo nella lettera ai Romani</li>
-        <li>La relazione tra l'ira e l'amore di Dio in Gesù</li>
-      </ul>
-      <div class="meta-info">
-        <span>Tempo stimato: 5-7 minuti</span>
-        <span>Numero domande: 10</span>
-        <span>Difficoltà: Medio</span>
-      </div>
-      <button id="start-btn" class="btn">Inizia il Quiz</button>
-    </section>
+    </header>
 
-    <!-- QUIZ SECTION (hidden until “Inizia il Quiz” is clicked) -->
-    <section id="quiz-container" class="card hidden">
-      <div id="question-wrapper">
-        <!-- Question text will be injected here -->
-      </div>
+    <div class="content">
+      <!-- ======== INTRODUZIONE ======== -->
+      <div class="intro-section" id="intro">
+        <h2>
+          <i class="fas fa-info-circle"></i> Introduzione al Quiz
+        </h2>
+        <p>
+          Benvenuto al quiz su "Lento all'Ira"! Questo test è progettato per
+          aiutarti a verificare la tua comprensione del carattere di Dio come
+          descritto nel documento di studio biblico.
+        </p>
+        <p>Il quiz consiste in 10 domande a scelta multipla basate sui seguenti temi:</p>
+        <ul class="intro-list">
+          <li>Il significato dell'espressione "Erek Apaim"</li>
+          <li>L'ira di Dio come metafora biblica</li>
+          <li>Esempi della pazienza di Dio nell'Antico Testamento</li>
+          <li>L'analisi di Paolo nella lettera ai Romani</li>
+          <li>La relazione tra l'ira e l'amore di Dio in Gesù</li>
+        </ul>
 
-      <form id="options-form">
-        <!-- Multiple-choice options will be injected here -->
-      </form>
+        <div class="stats">
+          <div class="stat-box">
+            <i class="far fa-clock"></i>
+            <h3>Tempo stimato</h3>
+            <p>5-7 minuti</p>
+          </div>
+          <div class="stat-box">
+            <i class="far fa-question-circle"></i>
+            <h3>Numero domande</h3>
+            <p>10</p>
+          </div>
+          <div class="stat-box">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Difficoltà</h3>
+            <p>Medio</p>
+          </div>
+        </div>
 
-      <div class="navigation">
-        <button id="prev-btn" class="btn small" disabled>
-          Precedente
+        <button class="btn btn-primary btn-start" id="start-btn">
+          <i class="fas fa-play"></i> Inizia il Quiz
         </button>
-        <button id="next-btn" class="btn small">Prossima</button>
       </div>
-    </section>
 
-    <!-- RESULTS SECTION (hidden until quiz is finished) -->
-    <section id="results-container" class="card hidden">
-      <h2>Il Tuo Risultato</h2>
-      <p id="score">0/10</p>
-      <button id="retry-btn" class="btn">Rifai il Quiz</button>
-      <h3>Riepilogo Risposte</h3>
-      <div id="review-wrapper">
-        <!-- Per-question review will be injected here -->
+      <!-- ======== QUIZ ========= -->
+      <div class="quiz-container" id="quiz">
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="question-container">
+          <div class="question-number" id="question-number">1</div>
+          <div class="question-text" id="question-text"></div>
+          <div class="options-container" id="options-container"></div>
+        </div>
+
+        <div class="navigation">
+          <button class="btn btn-nav" id="prev-btn" disabled>
+            <i class="fas fa-arrow-left"></i> Precedente
+          </button>
+          <button class="btn btn-primary btn-nav" id="next-btn">
+            Prossima <i class="fas fa-arrow-right"></i>
+          </button>
+          <button class="btn btn-success btn-nav" id="submit-btn">
+            <i class="fas fa-check-circle"></i> Mostra Risultati
+          </button>
+        </div>
       </div>
-    </section>
-  </main>
 
-  <!-- Link to external JS -->
+      <!-- ======== RISULTATI ======== -->
+      <div class="results-container" id="results">
+        <h2>
+          <i class="fas fa-trophy"></i> Il Tuo Risultato
+        </h2>
+        <div class="score-container" id="score">0/10</div>
+        <div class="score-text" id="score-text"></div>
+
+        <button class="btn btn-primary btn-restart" id="restart-btn">
+          <i class="fas fa-redo"></i> Rifai il Quiz
+        </button>
+
+        <div class="feedback" id="feedback">
+          <h3>
+            <i class="fas fa-lightbulb"></i> Riepilogo Risposte
+          </h3>
+          <div id="feedback-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS esterno -->
   <script src="js/script.js"></script>
 </body>
 </html>
