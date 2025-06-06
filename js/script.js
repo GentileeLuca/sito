@@ -1,301 +1,288 @@
-/* ============================================================
-   Definizione DOM ELEMENTS
-============================================================ */
+// ====================== DOM ELEMENTS ======================
 const introSection = document.getElementById('intro');
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
 const startBtn = document.getElementById('start-btn');
-
-const quizContainer = document.getElementById('quiz-container');
-const questionWrapper = document.getElementById('question-wrapper');
-const optionsForm = document.getElementById('options-form');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
+const submitBtn = document.getElementById('submit-btn');
+const restartBtn = document.getElementById('restart-btn');
+const questionNumberEl = document.getElementById('question-number');
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const scoreElement = document.getElementById('score');
+const scoreTextElement = document.getElementById('score-text');
+const feedbackContent = document.getElementById('feedback-content');
+const progressBar = document.getElementById('progress-bar');
 
-const resultsContainer = document.getElementById('results-container');
-const scoreSpan = document.getElementById('score');
-const retryBtn = document.getElementById('retry-btn');
-const reviewWrapper = document.getElementById('review-wrapper');
-
-/* ============================================================
-   ARRAY DI DOMANDE
-   (sostituisci i testi e le opzioni con quelle reali)
-============================================================ */
-const quizData = [
+// ====================== DOMANDE DEL QUIZ ======================
+const questions = [
   {
-    question: '1. Che cosa significa “Erek Apaim”?',
+    question:
+      "Qual è il significato letterale dell'espressione ebraica 'Erek Apaim'?",
     options: [
-      '“Il Santo di Israele”',
-      '“Colui che è paziente nell’ira”',
-      '“Padre misericordioso”',
-      '“Grazia abbondante”',
+      "Lento a perdonare",
+      "Lungo di naso",
+      "Ricco in benignità",
+      "Grande nella misericordia",
     ],
-    correctIndex: 1,
+    answer: 1,
+    explanation:
+      "L'espressione ebraica 'Erek Apaim' significa letteralmente 'lungo di naso'. Nella cultura ebraica, questo si riferisce al fatto che ci vuole molto tempo affinché il naso (simbolo dell'ira) si scaldi, indicando che Dio è lento all'ira.",
+  },
+  {
+    question: "Nella storia di Giuseppe, cosa significa l'espressione 'il suo naso ardeva'?",
+    options: [
+      "Che Giuseppe aveva la febbre",
+      "Che Potifar era molto arrabbiato",
+      "Che Giuseppe era in imbarazzo",
+      "Che la moglie di Potifar era gelosa",
+    ],
+    answer: 1,
+    explanation:
+      "Nella storia di Giuseppe, l'espressione 'il suo naso ardeva' (Genesi 39:19) viene tradotta come 'la sua ira ardeva', indicando che Potifar era molto arrabbiato con Giuseppe.",
   },
   {
     question:
-      '2. Nella Bibbia, l’ira di Dio è frequentemente usata come metafora per:',
+      "Secondo il documento, come viene espressa principalmente l'ira di Dio nella Bibbia?",
     options: [
-      'Il giudizio finale',
-      'La giustizia divina che purifica',
-      'La guarigione del popolo',
-      'Il perdono incondizionato',
+      "Con punizioni immediate e dirette",
+      "Abbandonando le persone alle conseguenze delle loro scelte",
+      "Attraverso calamità naturali",
+      "Con l'invio di profeti per ammonire",
     ],
-    correctIndex: 1,
+    answer: 1,
+    explanation:
+      "Nella Bibbia, l'ira di Dio viene espressa principalmente abbandonando le persone alle conseguenze delle loro scelte, come nel caso del Faraone e degli Israeliti.",
   },
-  // ... aggiungi qui tutte le 10 domande sullo stesso modello ...
   {
-    question:
-      '3. Un esempio della pazienza di Dio nell’Antico Testamento è:',
-    options: [
-      'L’episodio del Diluvio Universale',
-      'La distruzione di Sodoma e Gomorra',
-      'L’esodo dall’Egitto',
-      'La ribellione di Israele nel deserto per 40 anni',
-    ],
-    correctIndex: 3,
+    question: "Quante possibilità Dio diede al Faraone per liberare Israele?",
+    options: ["Tre possibilità", "Sette possibilità", "Dieci possibilità", "Dodici possibilità"],
+    answer: 2,
+    explanation:
+      "Dio diede al Faraone dieci possibilità (le dieci piaghe) per liberare Israele prima di intervenire con giudizio.",
   },
   {
     question:
-      '4. Quale passaggio della Lettera ai Romani parla dell’ira di Dio?',
+      "Secondo Romani 1, quante volte Paolo afferma che Dio abbandona le persone alle loro scelte?",
+    options: ["Una volta", "Due volte", "Tre volte", "Cinque volte"],
+    answer: 2,
+    explanation:
+      "Nella lettera ai Romani (capitolo 1), Paolo descrive tre volte come Dio abbandoni le persone alle conseguenze delle loro scelte peccaminose.",
+  },
+  {
+    question: "Secondo Romani 2:4, qual è lo scopo della pazienza di Dio?",
     options: [
-      'Romani 3:23',
-      'Romani 5:8',
-      'Romani 1:18',
-      'Romani 8:28',
+      "Dimostrare la sua superiorità",
+      "Dare più tempo per peccare",
+      "Spingere al ravvedimento",
+      "Preparare per il giudizio",
     ],
-    correctIndex: 2,
+    answer: 2,
+    explanation:
+      "Romani 2:4 afferma che la bontà, pazienza e costanza di Dio hanno lo scopo di spingere le persone al ravvedimento.",
   },
   {
     question:
-      '5. Secondo l’insegnamento di Gesù, come si concilia l’ira con l’amore di Dio?',
+      "In che modo Gesù dimostra sia l'amore che l'ira di Dio?",
     options: [
-      'L’ira è un’illusione; esiste solo l’amore',
-      'L’ira di Dio è un segno del suo affetto profondo',
-      'L’amore di Dio giace “sotto” l’ira, portando al pentimento',
-      'L’ira di Dio e l’amore sono mutuamente esclusivi',
+      "Condannando i peccatori",
+      "Caricando su di sé le conseguenze del peccato",
+      "Sconfiggendo i Romani",
+      "Insegnando una nuova legge",
     ],
-    correctIndex: 2,
+    answer: 1,
+    explanation:
+      "Gesù dimostra l'amore e l'ira di Dio caricando su di sé le conseguenze del peccato umano, morendo al posto dei peccatori.",
   },
   {
     question:
-      '6. “Lento all’Ira” sottolinea che Dio dà agli uomini:',
+      "Quale libro della Bibbia contiene la descrizione di Dio come 'lento all'ira'?",
+    options: ["Genesi", "Salmi", "Esodo", "Isaia"],
+    answer: 2,
+    explanation:
+      "La descrizione di Dio come 'misericordioso e pietoso, lento all'ira, ricco in benignità e fedeltà' si trova in Esodo 34:6.",
+  },
+  {
+    question: "Cosa significa secondo il documento che Dio è 'lento all'ira'?",
     options: [
-      'Una seconda possibilità immediata',
-      'Tempo per pentirsi prima del giudizio',
-      'La capacità di ignorare il male',
-      'La salvezza garantita',
+      "Dio non si arrabbia mai",
+      "Dio concede molto tempo per cambiare",
+      "Dio è indifferente al male",
+      "Dio dimentica facilmente i peccati",
     ],
-    correctIndex: 1,
+    answer: 1,
+    explanation:
+      "Dio è 'lento all'ira' significa che Egli concede alle persone molto tempo per cambiare e ravvedersi prima di intervenire con giudizio.",
   },
   {
     question:
-      '7. Un’altra traduzione di “Erek Apaim” è:',
+      "Quale aspetto del carattere di Dio è più fondamentale della sua ira?",
     options: [
-      '“Paziente nell’amore”',
-      '“Lento a giudicare”',
-      '“Colmo di misericordia”',
-      '“Giusto e santo”',
+      "La sua onnipotenza",
+      "La sua giustizia",
+      "La sua compassione e l'amore fedele",
+      "La sua santità",
     ],
-    correctIndex: 1,
-  },
-  {
-    question:
-      '8. Quale profeta dell’Antico Testamento enfatizza la lunga pazienza di Dio?',
-    options: [
-      'Isaia',
-      'Geremia',
-      'Giona',
-      'Abacuc',
-    ],
-    correctIndex: 2,
-  },
-  {
-    question:
-      '9. Nel Nuovo Testamento, l’ira di Dio è vista soprattutto come:',
-    options: [
-      'Punizione per i peccatori incalliti',
-      'Prova della sua inesistenza',
-      'Sfida alla fede dei credenti',
-      'Segno della sua debolezza',
-    ],
-    correctIndex: 0,
-  },
-  {
-    question:
-      '10. Alla fine del quiz, un credente dovrebbe comprendere che la “lentezza all’ira” di Dio è:',
-    options: [
-      'Una debolezza divina',
-      'Solo un’espressione poetica',
-      'Manifestazione del suo amore e giustizia insieme',
-      'Un concetto solo per esperti teologi',
-    ],
-    correctIndex: 2,
+    answer: 2,
+    explanation:
+      "La compassione e l'amore fedele di Dio sono aspetti più fondamentali del suo carattere rispetto alla sua ira, che è una risposta alla malvagità umana.",
   },
 ];
 
-/* ============================================================
-   VARIABILI DI STATO DEL QUIZ
-============================================================ */
-let currentQuestionIndex = 0;
-const userAnswers = new Array(quizData.length).fill(null);
+// ====================== STATO DEL QUIZ ======================
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let score = 0;
 
-/* ============================================================
-   INIZIALIZZA EVENT LISTENERS
-============================================================ */
-startBtn.addEventListener('click', startQuiz);
-prevBtn.addEventListener('click', showPrevious);
-nextBtn.addEventListener('click', showNextOrFinish);
-retryBtn.addEventListener('click', resetQuiz);
+// ====================== FUNZIONI PRINCIPALI ======================
 
-/* ============================================================
-   FUNZIONE startQuiz: Nasconde la sezione intro e mostra la 1ª domanda
-============================================================ */
 function startQuiz() {
-  introSection.classList.add('hidden');
-  quizContainer.classList.remove('hidden');
-  renderQuestion();
+  introSection.style.display = 'none';
+  quizContainer.style.display = 'block';
+  showQuestion(currentQuestion);
+  updateProgressBar();
 }
 
-/* ============================================================
-   FUNZIONE renderQuestion: Mostra la domanda corrente e le opzioni
-============================================================ */
-function renderQuestion() {
-  const qData = quizData[currentQuestionIndex];
-  // Imposta il testo della domanda
-  questionWrapper.innerHTML = `<h2>Domanda ${
-    currentQuestionIndex + 1
-  } di ${quizData.length}</h2>
-  <p class="question-text">${qData.question}</p>`;
+function showQuestion(index) {
+  const question = questions[index];
+  questionText.textContent = question.question;
 
-  // Ricostruisci le opzioni nel form
-  optionsForm.innerHTML = '';
-  qData.options.forEach((optText, idx) => {
-    const optionId = `option-${idx}`;
-    const isChecked = userAnswers[currentQuestionIndex] === idx ? 'checked' : '';
+  optionsContainer.innerHTML = '';
+  question.options.forEach((option, i) => {
+    const optionElement = document.createElement('div');
+    optionElement.classList.add('option');
+    if (userAnswers[index] === i) optionElement.classList.add('selected');
 
-    const optionHTML = `
-      <label class="option" for="${optionId}">
-        <input
-          type="radio"
-          name="answer"
-          id="${optionId}"
-          value="${idx}"
-          ${isChecked}
-        />
-        ${optText}
-      </label>
-    `;
-    optionsForm.insertAdjacentHTML('beforeend', optionHTML);
+    const optionLabel = document.createElement('div');
+    optionLabel.classList.add('option-label');
+    optionLabel.textContent = String.fromCharCode(65 + i); // A, B, C, D
+
+    const optionText = document.createElement('div');
+    optionText.textContent = option;
+
+    optionElement.appendChild(optionLabel);
+    optionElement.appendChild(optionText);
+
+    optionElement.addEventListener('click', () => selectOption(i));
+    optionsContainer.appendChild(optionElement);
   });
 
-  // Abilita/disabilita pulsante “Precedente”
-  prevBtn.disabled = currentQuestionIndex === 0;
-
-  // Cambia testo di “Prossima” in “Mostra Risultati” se è l’ultima domanda
-  nextBtn.textContent =
-    currentQuestionIndex === quizData.length - 1 ? 'Mostra Risultati' : 'Prossima';
+  prevBtn.disabled = index === 0;
+  nextBtn.style.display = index < questions.length - 1 ? 'block' : 'none';
+  submitBtn.style.display = index === questions.length - 1 ? 'block' : 'none';
+  questionNumberEl.textContent = index + 1;
 }
 
-/* ============================================================
-   FUNZIONE showPrevious: Torna alla domanda precedente (se esiste)
-============================================================ */
-function showPrevious() {
-  saveCurrentAnswer();
-  if (currentQuestionIndex > 0) {
-    currentQuestionIndex--;
-    renderQuestion();
+function selectOption(optionIndex) {
+  userAnswers[currentQuestion] = optionIndex;
+  const options = document.querySelectorAll('.option');
+  options.forEach((opt) => opt.classList.remove('selected'));
+  options[optionIndex].classList.add('selected');
+}
+
+function nextQuestion() {
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    showQuestion(currentQuestion);
+    updateProgressBar();
   }
 }
 
-/* ============================================================
-   FUNZIONE showNextOrFinish: Validazione + avanti o risultati
-============================================================ */
-function showNextOrFinish() {
-  const selected = optionsForm.answer.value;
-  if (selected === undefined) {
-    // Nessuna opzione selezionata: mostro un alert o un messaggio di errore
-    alert('Seleziona una risposta prima di andare avanti.');
-    return;
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion(currentQuestion);
+    updateProgressBar();
   }
+}
 
-  saveCurrentAnswer();
+function updateProgressBar() {
+  const progress = ((currentQuestion + 1) / questions.length) * 100;
+  progressBar.style.width = `${progress}%`;
+}
 
-  if (currentQuestionIndex < quizData.length - 1) {
-    currentQuestionIndex++;
-    renderQuestion();
+function submitQuiz() {
+  // Calcolo del punteggio
+  score = 0;
+  questions.forEach((question, index) => {
+    if (userAnswers[index] === question.answer) score++;
+  });
+
+  // Mostra risultati
+  quizContainer.style.display = 'none';
+  resultsContainer.style.display = 'block';
+  scoreElement.textContent = `${score}/${questions.length}`;
+
+  // Testo di feedback in base al punteggio
+  let text;
+  if (score >= 9) {
+    text =
+      "Eccellente! Hai una profonda comprensione del carattere di Dio e della sua pazienza.";
+  } else if (score >= 7) {
+    text =
+      "Ottimo lavoro! Hai una buona conoscenza del tema 'Lento all'Ira'.";
+  } else if (score >= 5) {
+    text =
+      "Buono! Hai compreso i concetti principali ma potresti approfondire alcuni aspetti.";
   } else {
-    // Ultima domanda: mostra risultati
-    displayResults();
+    text =
+      "Continua a studiare! Rileggi il documento per comprendere meglio il carattere di Dio.";
   }
-}
+  scoreTextElement.textContent = text;
 
-/* ============================================================
-   FUNZIONE saveCurrentAnswer: Memorizza la risposta dell’utente
-============================================================ */
-function saveCurrentAnswer() {
-  const formData = new FormData(optionsForm);
-  const answerValue = formData.get('answer');
-  userAnswers[currentQuestionIndex] = answerValue !== null ? Number(answerValue) : null;
-}
+  // Riepilogo domande + risposte
+  feedbackContent.innerHTML = '';
+  questions.forEach((question, index) => {
+    const feedbackItem = document.createElement('div');
+    feedbackItem.classList.add('feedback-item');
 
-/* ============================================================
-   FUNZIONE calculateScore: Restituisce punteggio totale corretto
-============================================================ */
-function calculateScore() {
-  return userAnswers.reduce((sum, ans, idx) => {
-    if (ans === quizData[idx].correctIndex) {
-      return sum + 1;
+    const questionElem = document.createElement('p');
+    questionElem.innerHTML = `<strong>Domanda ${index + 1}:</strong> ${question.question}`;
+    feedbackItem.appendChild(questionElem);
+
+    const isCorrect = userAnswers[index] === question.answer;
+    const userAnswerText =
+      userAnswers[index] !== null
+        ? question.options[userAnswers[index]]
+        : '<i>Non hai risposto</i>';
+
+    const userAnswerElem = document.createElement('p');
+    userAnswerElem.innerHTML = `<strong>La tua risposta:</strong> <span style="color: ${
+      isCorrect ? 'green' : 'red'
+    }">${userAnswerText}</span>`;
+    feedbackItem.appendChild(userAnswerElem);
+
+    if (!isCorrect) {
+      const correctAnswerElem = document.createElement('p');
+      correctAnswerElem.innerHTML = `<strong>Risposta corretta:</strong> <span style="color: green">${
+        question.options[question.answer]
+      }</span>`;
+      feedbackItem.appendChild(correctAnswerElem);
     }
-    return sum;
-  }, 0);
-}
 
-/* ============================================================
-   FUNZIONE displayResults: Mostra la sezione dei risultati
-============================================================ */
-function displayResults() {
-  saveCurrentAnswer();
-  quizContainer.classList.add('hidden');
-  resultsContainer.classList.remove('hidden');
+    const explanationElem = document.createElement('p');
+    explanationElem.innerHTML = `<strong>Spiegazione:</strong> ${question.explanation}`;
+    feedbackItem.appendChild(explanationElem);
 
-  const totalScore = calculateScore();
-  scoreSpan.textContent = `${totalScore}/${quizData.length}`;
-
-  // Costruisco il riepilogo per ogni domanda
-  reviewWrapper.innerHTML = '';
-  quizData.forEach((qData, idx) => {
-    const userAns = userAnswers[idx];
-    const isCorrect = userAns === qData.correctIndex;
-    const wrapperClass = isCorrect ? 'review-item correct' : 'review-item wrong';
-
-    // Testo della risposta scelta (o “Non risposta” se null)
-    const userText = userAns !== null ? qData.options[userAns] : '<i>Non hai risposto</i>';
-    const correctText = qData.options[qData.correctIndex];
-
-    const reviewHTML = `
-      <div class="${wrapperClass}">
-        <p><strong>Domanda ${idx + 1}:</strong> ${qData.question}</p>
-        <p><strong>La tua risposta:</strong> ${userText}</p>
-        <p><strong>Risposta corretta:</strong> ${correctText}</p>
-      </div>
-    `;
-    reviewWrapper.insertAdjacentHTML('beforeend', reviewHTML);
+    feedbackContent.appendChild(feedbackItem);
   });
 }
 
-/* ============================================================
-   FUNZIONE resetQuiz: Riporta tutto allo stato inziale
-============================================================ */
-function resetQuiz() {
-  // Reimposto indici e risposte
-  currentQuestionIndex = 0;
-  for (let i = 0; i < userAnswers.length; i++) {
-    userAnswers[i] = null;
-  }
+function restartQuiz() {
+  currentQuestion = 0;
+  userAnswers = new Array(questions.length).fill(null);
+  score = 0;
 
-  resultsContainer.classList.add('hidden');
-  introSection.classList.remove('hidden');
-
-  // Ripristino pulsanti prev/next
-  prevBtn.disabled = true;
-  nextBtn.textContent = 'Prossima';
+  resultsContainer.style.display = 'none';
+  quizContainer.style.display = 'block';
+  showQuestion(currentQuestion);
+  updateProgressBar();
 }
+
+// ====================== EVENT LISTENERS ======================
+startBtn.addEventListener('click', startQuiz);
+nextBtn.addEventListener('click', nextQuestion);
+prevBtn.addEventListener('click', prevQuestion);
+submitBtn.addEventListener('click', submitQuiz);
+restartBtn.addEventListener('click', restartQuiz);
